@@ -106,3 +106,4 @@ venv.bak/
 # Ophelia's
 *.db
 .vscode/
+*.ini
