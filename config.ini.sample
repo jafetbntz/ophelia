@@ -1,0 +1,10 @@
+[TELEGRAM]
+api_url : https://api.telegram.org 
+token : secrete
+
+[DATABASE]
+name : secret
+host : secret
+port : secret
+user : secret
+pass : secret
