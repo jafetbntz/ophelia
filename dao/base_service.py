@@ -1,7 +1,7 @@
 from dao.connection import get_session
 
 
-class BaseService():
+class BaseService(object):
     """
     Base apara servicios de acceso a datos
     """

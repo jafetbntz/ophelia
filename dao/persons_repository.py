@@ -1,9 +1,12 @@
 from dao.base_service import BaseService
 from models import Person
+from dao.connection import get_session
 
 class PersonsRespository(BaseService):
     """
     """
+
+
 
     def get(self, index):
         """
@@ -12,34 +15,38 @@ class PersonsRespository(BaseService):
 
         return persons
 
-    def find_by_id(id):
+    def find_by_id(self, telegram_id):
         """
         """
+        person = self._session.query(Person).filter_by(
+            telegram_id=telegram_id).first()
+        return person
 
-        return
+    def add(self, person):
+        """
+        Inserta a BD la persona.
+        """
+        try:
+            self._session.add(person)
+            self._session.commit()
+        except Exception as e:
+            print(e)
+            return False
+        return True
 
-    def add(index):
+    def update(self, person):
         """
         """
-        person = Person(title="Doctor Strange",
-                              director="Scott Derrickson", year="2016")
-        _session.add(person)
-        _session.commit()
-        return
-
-    def update(person):
-        """
-        """
-        db_person = find_by_id(person.id)
+        db_person = self.find_by_id(person.id)
         db_person.name =  person.name
         
 
-        _session.commit()
+        self._session.commit()
         return
 
-    def delete(person):
+    def delete(self, person):
 
         person.is_actie = False
-        _session.commit()
+        self._session.commit()
 
         return

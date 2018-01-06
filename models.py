@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -18,8 +18,11 @@ class Person(Base):
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    authority_leel = Column(Integer) 
+    last_name = Column(String(250), nullable=False)
+    authority_level = Column(Integer) 
     power_key = Column(String(500))
+    telegram_id = Column(Integer)
+    is_human = Column(Boolean, unique=False, default=True)
 
 
 class Topic(Base):
@@ -28,7 +31,7 @@ class Topic(Base):
     topic = Column(String(250))
     abstract = Column(String(500))
     public_opinion = Column(String(500), nullable=False)
-    is_active = Column(String(250), nullable=False)
+    is_active = Column(Boolean,unique=False, default=True)
 
 
 

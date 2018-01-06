@@ -53,7 +53,7 @@ class Telegram(BaseChannel):
         result_text = ""
         try:
 
-            if(text == "/start"):
+            if(text in ("/start", "hello", "hola") ):
                 result_text = self._attitude.greetings()
             else:
                 result_text = self._attitude.answer(text)
@@ -79,12 +79,28 @@ class Telegram(BaseChannel):
             except Exception as e:
                 print(e)
     
+    def save_updates(self, updates):
+        print("save_updates()")
+        for item in updates["result"]:
+            name = item["message"]["from"]["first_name"]
+            last_name = item["message"]["from"]["last_name"]
+            is_human = not bool(item["message"]["from"]["is_bot"])
+            telegram_id = int(item["message"]["from"]["id"])
+            self._attitude.save_person(name, last_name, is_human, telegram_id)
+            print(item["message"]["from"])
+
+    def answer_each_one(self, updates):
+        print("==========================================")
+        for item in updates["result"]:
+            print(item["message"]["from"])
+
     def serve(self):
         last_update_id = None
 
         while True:
             updates = self.get_updates(last_update_id)
-
+            self.save_updates(updates)
+            self.answer_each_one(updates)
             if len(updates["result"]) > 0:
                 last_update_id = self.get_last_update_id(updates) + 1
                 self.echo_all(updates)
