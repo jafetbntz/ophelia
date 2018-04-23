@@ -1,6 +1,7 @@
 import random
 from dao.persons_repository import PersonsRespository
-from models import Person
+from dao.message_repository import MessageRespository
+from models import Person, Message
 
 GREETINGS = ["Klk", "Buen día", "Hi!"]
 class Ophelia(object):
@@ -11,9 +12,6 @@ class Ophelia(object):
     def __init__(self, config):
         self.config = config
         pass
-    
-    def answer(self, text):
-        return "wip"
     
 
     def greetings(self):
@@ -37,6 +35,43 @@ class Ophelia(object):
             print(e)
             return False
 
+    
+    def save_message(self, text, channel, reference):
+        try:
+            repository = MessageRespository()
+            result = repository.add(Message(text=text, channel=channel,reference_id=reference))
+            print(result)
+        except Exception as e:
+            print(e)
+    
+    def answer(self, message, channel, reference):
+
+            #         if(text in ("/start", "hello", "hola") ):
+            #     result_text = self._attitude.greetings()
+            # else:
+            #     result_text = self._attitude.answer(text)
+
+            # #print(text)
+            # #result_text = str(eval(text))
+        try:
+            self.save_message(message, channel, reference)
+            context = self.get_context(reference, channel)
+            message_result = ""
+            for msg in context:
+                message_result += "-" + msg.text + "\n"
+            return message_result
+        except Exception as e:
+            print(e)
+            return ("Sorry")
+    
+    def get_context(self, reference, channel):
+        try:
+            repository = MessageRespository()
+            messages = repository.find_by_reference(reference, channel)
+            return messages
+        except Exception as e:
+            print(e)
+            return []
 
 
 

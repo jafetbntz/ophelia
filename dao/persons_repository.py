@@ -6,8 +6,6 @@ class PersonsRespository(BaseService):
     """
     """
 
-
-
     def get(self, index):
         """
         """

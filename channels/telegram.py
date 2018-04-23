@@ -49,38 +49,20 @@ class Telegram(BaseChannel):
 
 
     def send_message(self, text, chat_id):
-        #text = urllib.parse.quote_plus(text)
-        result_text = ""
+
         try:
-
-            if(text in ("/start", "hello", "hola") ):
-                result_text = self._attitude.greetings()
-            else:
-                result_text = self._attitude.answer(text)
-
-            #print(text)
-            #result_text = str(eval(text))
-
+            url = self._url + \
+            "sendMessage?text={}&chat_id={}".format(text, chat_id)
+            self.get_url(url)
         except Exception as e:
-            result_text = str(e)
+
             print(e)
 
-        url = self._url + \
-            "sendMessage?text={}&chat_id={}".format(result_text, chat_id)
-        self.get_url(url)
 
 
-    def echo_all(self, updates):
-        for update in updates["result"]:
-            try:
-                text = update["message"]["text"]
-                chat = update["message"]["chat"]["id"]
-                self.send_message(text, chat)
-            except Exception as e:
-                print(e)
     
     def save_updates(self, updates):
-        print("save_updates()")
+   
         for item in updates["result"]:
             name = item["message"]["from"]["first_name"]
             last_name = item["message"]["from"]["last_name"]
@@ -90,19 +72,22 @@ class Telegram(BaseChannel):
             print(item["message"]["from"])
 
     def answer_each_one(self, updates):
-        print("==========================================")
+        self.save_updates(updates)
         for item in updates["result"]:
-            print(item["message"]["from"])
+            msg = item["message"]["text"]
+            user = item["message"]["from"]
+            chat = item["message"]["chat"]["id"]
+            message_result = self._attitude.answer(msg, "TELEGRAM",  str(chat))
+            self.send_message(message_result, chat)
 
     def serve(self):
         last_update_id = None
 
         while True:
             updates = self.get_updates(last_update_id)
-            self.save_updates(updates)
-            self.answer_each_one(updates)
+            
             if len(updates["result"]) > 0:
                 last_update_id = self.get_last_update_id(updates) + 1
-                self.echo_all(updates)
+                self.answer_each_one(updates)
 
             time.sleep(0.5)

@@ -1,7 +1,7 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -32,6 +32,15 @@ class Topic(Base):
     abstract = Column(String(500))
     public_opinion = Column(String(500), nullable=False)
     is_active = Column(Boolean,unique=False, default=True)
+
+class Message(Base):
+    __tablename__ = 'messages'
+    id = Column(Integer, primary_key=True)
+    text = Column(String)
+    time = Column(DateTime)
+    reference_id = Column(String(50))
+    channel = Column(String(50))
+
 
 
 
