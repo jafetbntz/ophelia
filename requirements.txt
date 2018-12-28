@@ -8,8 +8,8 @@ mccabe==0.6.1
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
 pylint==1.8.4
-requests==2.18.4
+requests>=2.18.4
 six==1.11.0
 SQLAlchemy==1.2.6
-urllib3==1.22
+urllib3>=1.23
 wrapt==1.10.11

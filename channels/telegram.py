@@ -74,11 +74,17 @@ class Telegram(BaseChannel):
     def answer_each_one(self, updates):
         self.save_updates(updates)
         for item in updates["result"]:
-            msg = item["message"]["text"]
             user = item["message"]["from"]
             chat = item["message"]["chat"]["id"]
-            message_result = self._attitude.answer(msg, "TELEGRAM",  str(chat))
-            self.send_message(message_result, chat)
+            print(item["message"])
+            if("text" in item["message"]):
+                
+                msg = item["message"]["text"]
+
+                message_result = self._attitude.answer(msg, "TELEGRAM",  str(chat))
+                self.send_message(message_result, chat)
+            else:
+                self.send_message(item["message"], chat)
 
     def serve(self):
         last_update_id = None

@@ -41,6 +41,14 @@ class Message(Base):
     reference_id = Column(String(50))
     channel = Column(String(50))
 
+class BibleVerse(Base):
+    __tablename__ = 'bible'
+    id = Column(Integer, primary_key=True)
+    book = Column(String)
+    chapter = Column(String)
+    verse = Column(String)
+    content = Column(String)
+
 
 
 
