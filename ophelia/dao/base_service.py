@@ -1,4 +1,4 @@
-from dao.connection import get_session
+from .connection import get_session
 
 
 class BaseService(object):

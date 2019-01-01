@@ -1,5 +1,5 @@
 
-from models import Base
+from ophelia.models import Base
 from sqlalchemy import create_engine
 import configparser
 from sqlalchemy.orm import sessionmaker

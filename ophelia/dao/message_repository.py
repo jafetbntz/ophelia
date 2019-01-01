@@ -1,6 +1,6 @@
-from dao.base_service import BaseService
-from models import Message
-from dao.connection import get_session
+from .base_service import BaseService
+from ophelia.models import Message
+from .connection import get_session
 from datetime import datetime
 
 class MessageRespository(BaseService):

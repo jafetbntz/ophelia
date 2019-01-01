@@ -1,6 +1,6 @@
-from dao.base_service import BaseService
-from models import Person
-from dao.connection import get_session
+from .base_service import BaseService
+from ophelia.models import Person
+from .connection import get_session
 
 class PersonsRespository(BaseService):
     """

@@ -1,19 +1,17 @@
 import random
+from .dao.persons_repository import PersonsRespository
+from .dao.message_repository import MessageRespository
+from .models import Person, Message
 import platform
 import psutil
-import json
 import requests
-from dao.persons_repository import PersonsRespository
-from dao.message_repository import MessageRespository
-from models import Person, Message
+import json
 from datetime import datetime
-
-
 
 GREETINGS = ["Klk", "Buen día", "Hi!"]
 class Ophelia(object):
     """
-    Centro de actitud
+
     
     """
     def __init__(self, config):
@@ -52,26 +50,24 @@ class Ophelia(object):
             print(e)
     
     def answer(self, message, channel, reference):
-        message_result = 'Sorry, what?'
-        if(message == "/iis" ):
-            return self.iis_location()
-        if(message == "/system_status" ):
-            return self.system_status()
-        elif(message in ("/start", "hello", "hola") ):
-            return self.greetings()
-        else:
-            try:
-                self.save_message(message, channel, reference)
-                context = self.get_context(reference, channel)
-                message_result = ""
-                for msg in context:
-                    message_result += "-" + msg.text + "\n"
-                
-            except Exception as e:
-                print(e)
-                return ("Sorry")
-        
-        return message_result
+
+            #         if(text in ("/start", "hello", "hola") ):
+            #     result_text = self._attitude.greetings()
+            # else:
+            #     result_text = self._attitude.answer(text)
+
+            # #print(text)
+            # #result_text = str(eval(text))
+        try:
+            self.save_message(message, channel, reference)
+            context = self.get_context(reference, channel)
+            message_result = ""
+            for msg in context:
+                message_result += "-" + msg.text + "\n"
+            return message_result
+        except Exception as e:
+            print(e)
+            return ("Sorry")
     
     def get_context(self, reference, channel):
         try:
@@ -116,7 +112,7 @@ class Ophelia(object):
 
         return result
 
-    def iis_location(self):
+    def iss_location(self):
 
         api_url = "http://api.open-notify.org/iss-now.json"
         response = requests.get(api_url)
@@ -132,3 +128,21 @@ class Ophelia(object):
             json_content["iss_position"]["longitude"])
         
         return result
+    
+    def search_verse(self, verse):
+        verse = verse[7:]
+        print(verse)
+        quote = verse.split(".")
+        repository = BibleRespository()
+        
+        print(len(quote))
+        
+        if(len(quote) == 2):
+            return repository.get_chapter(quote[0], quote[1])
+
+        if(len(quote) == 3):
+            return repository.get_verse(quote[0], quote[1], quote[2])
+        else:
+            return repository.search(verse)
+
+

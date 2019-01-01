@@ -1,0 +1,3 @@
+from .persons_repository import PersonsRespository
+from .bible_repository import BibleRespository
+from .message_repository import MessageRespository
