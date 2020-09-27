@@ -37,7 +37,7 @@ def hello(bot, update):
 
 
 
-updater = Updater(OPHELIA.config.get("TELEGRAM", "token"))
+updater = Updater(OPHELIA.config.get("TELEGRAM", "token"), use_context=True)
 
 updater.dispatcher.add_handler(CommandHandler('hello', hello))
 updater.dispatcher.add_handler(CommandHandler('verse', verse))
